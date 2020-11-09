@@ -1,15 +1,17 @@
 import React from "react";
 
-// function Row({ year, totalReturn }) {
 function Row({ elem }) {
-  // console.log('elem', elem)
-  const { year, totalReturn } = elem;
-  console.log("year", year);
+  const { year, totalReturn, cumulative } = elem;
+
+  const textStyle = {
+    color: totalReturn < 0 ? "red" : "black",
+  };
+
   return (
     <tr>
       <td>{year}</td>
-      <td>{totalReturn}</td>
-      <td>null</td>
+      <td style={textStyle}>{totalReturn}</td>
+      <td>{cumulative}</td>
     </tr>
   );
 }

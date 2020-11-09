@@ -1,40 +1,53 @@
-import React, { useState } from 'react';
-import Slider, { Range } from 'rc-slider';
-import Row from './components/row';
-import './App.css';
+// Components
+import React, { useState, useEffect } from "react";
+import Slider from "./components/slider";
+import Table from "./components/table";
+import Row from "./components/row";
+// Data
+import returns from "./data/s&p-500-returns.json";
+// Styles
+import "./App.css";
 
 function App() {
-  const testCase = [{"year":2019,"totalReturn":"31.49"}];
-  const [years, setYears] = useState(testCase);
-  const tableBody = years.map( (elem, index) => 
-    <Row elem={elem} key={index}/>
-  )
+  const [yearsData, setYearsData] = useState([]);
+  // Prep Data / sort ascending
+  var years;
+  years = returns.sort(function ascending(a, b) {
+    return a.year - b.year;
+  });
+  // Add Cumulative Column
+  var total = 0;
+  years.map((elem, index) => {
+    total += parseFloat(elem.totalReturn);
+    elem.cumulative = total.toFixed(2);
+    return elem;
+  });
+  // Sort Descending
+  years.sort(function descending(a, b) {
+    return b.year - a.year;
+  });
+  useEffect(() => {
+    setYearsData(years);
+  });
+  // Make rows
+  const tableBody = yearsData.map((elem, index) => (
+    <Row elem={elem} key={index} />
+  ));
+
   return (
     <>
-    <div className="container">
-      <div className="row">
-        <h1>S&P 500</h1>
+      <div className="container">
+        <div className="row">
+          <h1>S&P 500</h1>
+        </div>
       </div>
-    </div>
-
-        <Slider></Slider>
-
-    <div className="container">
-      <div className="row">
-        <table>
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Year's Return</th>
-              <th>Cumalative Return</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableBody}
-          </tbody>
-        </table>
+      <div className="container">
+        <div className="row">
+          <Slider></Slider>
+        </div>
       </div>
-    </div>
+
+      <Table tableBody={tableBody} />
     </>
   );
 }

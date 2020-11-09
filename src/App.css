@@ -1,4 +1,5 @@
 .container {
+  margin:auto;
   max-width: 1000px;
 }
 .row {
@@ -8,3 +9,12 @@
 .block {
   display: block;
 }
+table {
+  width: 100%;
+}
+th, td{
+  text-align: left;
+  padding: 5px 10px 5px 10px;
+}
+
+
