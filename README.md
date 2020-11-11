@@ -2,9 +2,10 @@
 
 ## Running the project
 1. `git clone https://github.com/MDShields7/retireup-test.git`
-2. `npm i`
-3. `npm run start`
-4. View site on http://localhost:3000/
+2. `cd retureup-test`
+3. `npm i`
+4. `npm run start`
+5. View site on http://localhost:3000/
 
 ## Technology used
 1. [S&P Return data](https://www.slickcharts.com/sp500/returns/history.json) downloaded and used
