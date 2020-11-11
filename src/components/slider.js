@@ -7,10 +7,6 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 const wrapperStyle = { width: 500, margin: 50 };
 
-function log(value) {
-  console.log(value); //eslint-disable-line
-}
-
 class DynamicBounds extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +52,6 @@ class DynamicBounds extends React.Component {
 
   render() {
     const { min, max, marks } = this.state;
-    const defaultVals = [min, max];
     return (
       <div>
         <Range
@@ -73,7 +68,7 @@ class DynamicBounds extends React.Component {
   }
 }
 
-export default (props) => {
+const wrapper = (props) => {
   return (
     <div>
 
@@ -85,3 +80,5 @@ export default (props) => {
     </div>
   );
 };
+
+export default wrapper;

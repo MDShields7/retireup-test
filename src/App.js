@@ -53,7 +53,6 @@ class App extends React.Component {
   };
   changeHandles = (val) => {
     // Slider handles update table rows & cumulative column
-    console.log("new handle values", val);
     const { yearsData, yearsWithCumulative, handleMin } = this.state;
     const handleStart = val[0];
     const handleEnd = val[1];
@@ -92,17 +91,17 @@ class App extends React.Component {
     return cumulativeYears;
   };
   makeTableBody = (cumulativeArr, begin, end) => {
-    const tableBody = cumulativeArr.map((elem, index) => {
-      if (elem.year >= begin && elem.year <= end) {
+    var tableBody = cumulativeArr.filter( (elem) => 
+    elem.year >= begin && elem.year <= end
+    )
+    tableBody = tableBody.map((elem, index) => {
         return <Row elem={elem} key={index} />;
-      }
     });
     return tableBody;
   };
 
   render() {
     const { yearsData, min, max, tableBody } = this.state;
-    console.log("App.js, this.state", this.state);
     return (
       <>
         <div className="container">
