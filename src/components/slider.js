@@ -1,7 +1,9 @@
 import React from "react";
-import { Range } from "rc-slider";
+import Slider from "rc-slider";
 import "../../node_modules/rc-slider/assets/index.css";
 import "./slider.css";
+const createSliderWithTooltip = Slider.createSliderWithTooltip;
+const Range = createSliderWithTooltip(Slider.Range);
 
 const wrapperStyle = { width: 500, margin: 50 };
 
