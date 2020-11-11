@@ -1,5 +1,5 @@
 import React from "react";
-import Slider, { Range } from "rc-slider";
+import { Range } from "rc-slider";
 import "../../node_modules/rc-slider/assets/index.css";
 import "./slider.css";
 
@@ -53,7 +53,6 @@ class DynamicBounds extends React.Component {
   };
 
   render() {
-    // console.log("DynamicBounds, this.props", this.props);
     const { min, max, marks } = this.state;
     const defaultVals = [min, max];
     return (
@@ -73,7 +72,6 @@ class DynamicBounds extends React.Component {
 }
 
 export default (props) => {
-  // console.log("wrapper props", props);
   return (
     <div>
 

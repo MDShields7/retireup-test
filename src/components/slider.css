@@ -1,20 +1,20 @@
-.rc-slider-track {
-    background-color: rgb(48, 48, 48);
-}
 .rc-slider-handle {
     border: solid 2px  rgb(48, 48, 48);
 }
 .rc-slider-dot-active {
     border-color: rgb(48, 48, 48);
 }
+.rc-slider-track {
+    background-color: rgb(40, 154, 199);
+}
 .rc-slider-handle:hover {
-    border-color: rgb(51, 71, 219);
-    box-shadow: 0 0 0 5px rgb(51, 71, 219);
+    border-color: rgb(40, 154, 199);
+    box-shadow: 0 0 0 5px rgb(40, 154, 199);
 }
 .rc-slider-handle-click-focused:focus {
-    border-color: rgb(51, 71, 219);
+    border-color: rgb(40, 154, 199);
 }
 .rc-slider-handle-dragging {
-    border-color: rgb(51, 71, 219) !important;
-    box-shadow: 0 0 0 5px rgb(51, 71, 219) !important;
+    border-color: rgb(40, 154, 199) !important;
+    box-shadow: 0 0 0 5px rgb(40, 154, 199) !important;
 }
