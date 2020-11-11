@@ -7,7 +7,7 @@
 4. View site on http://localhost:3000/
 
 ## Technology used
-1. (S&P Return data)[https://www.slickcharts.com/sp500/returns/history.json] downloaded and used
+1. [S&P Return data](https://www.slickcharts.com/sp500/returns/history.json) downloaded and used
 2. Create-React-App used
 3. RC-Slider Component used
 
