@@ -13,87 +13,83 @@ class App extends React.Component {
     super(props);
     this.state = {
       yearsData: [],
+      yearsWithCumulative: [],
       min: 0,
       max: 100,
-      tableMin: 0,
-      tableMax: 100,
+      handleMin: 0,
+      handleMax: 100,
       tableBody: null,
     };
   }
   componentDidMount() {
     this.prepData();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   var buildTableBody;
-  //   const {tableMin, tableMax} = this.state;
-  //   if (
-  //     prevState.tableMin !== tableMin &&
-  //     prevState.tableMax !== tableMax
-  //   ) {
-  //     buildTableBody = this.makeTableBody(tableMin, tableMax);
-  //       this.setState({
-  //         tableBody: buildTableBody,
-  //       });
-  //   }
-  // }
-  changeMin(val) {
-    console.log("new tableMin value", val);
-    const {tableMax} = this.state;
-    var buildTableBody;
-    buildTableBody = this.makeTableBody(val, tableMax);
-    this.setState({
-      tableMin: val,
-      tableBody: buildTableBody,
-    });
-  }
-  changeMax(val) {
-    console.log("new tableMax value", val);
-    const {tableMin} = this.state;
-    var buildTableBody;
-    buildTableBody = this.makeTableBody(tableMin, val);
-    this.setState({
-      tableMax: val,
-      tableBody: buildTableBody,
-    });
-  }
+  changeHandles = (val) => {
+    const { yearsData, handleMin } = this.state;
+    const handleStart = val[0];
+    const handleEnd = val[1];
+    console.log("new handle values", val);
+    if (handleStart !== handleMin) {
+      var buildCumulative = this.makeCumulative(yearsData, handleStart);
+      var buildTableBody = this.makeTableBody(handleStart, handleEnd);
+      this.setState({
+        handleMin: handleStart,
+        handleMax: handleEnd,
+        tableBody: buildTableBody,
+      });
+    } else {
+      var buildTableBody = this.makeTableBody(handleStart, handleEnd);
+      this.setState({
+        handleMin: handleStart,
+        handleMax: val[1],
+        tableBody: buildTableBody,
+      });
+    }
+  };
   prepData = () => {
     // Prep Data / sort ascending
-    var years, buildTableBody;
-    years = returns.sort(function ascending(a, b) {
-      return a.year - b.year;
-    });
+    var buildYears = this.makeYearsData();
     // Add Cumulative Column
-    var total = 0;
-    years = years.map((elem, index) => {
-      total += parseFloat(elem.totalReturn);
-      elem.cumulative = total.toFixed(2);
-      return elem;
-    });
-    // Sort Descending
-    years = years.sort(function descending(a, b) {
-      return b.year - a.year;
-    });
-    let buildMax = years[0].year;
-    let buildMin = years[years.length - 1].year;
-    buildTableBody = this.makeTableBody(years, buildMin, buildMax);
+    var buildCumulative = this.makeCumulative(buildYears, buildYears[0].year);
+    // Set table states
+    var buildMax = buildCumulative[0].year;
+    var buildMin = buildCumulative[buildYears.length - 1].year;
+    var buildTableBody = this.makeTableBody(buildMin, buildMax);
     this.setState({
-      yearsData: years,
-      // yearsSelected: years,
+      yearsData: buildYears,
+      yearsWithCumulative: buildCumulative,
       min: buildMin,
       max: buildMax,
-      tableMin: buildMin,
-      tableMax: buildMax,
+      handleMin: buildMin,
+      handleMax: buildMax,
       tableBody: buildTableBody,
     });
   };
-
-  makeTableBody = (arr, begin, end) => {
-    // console.log('making body')
-    // console.log('begin', begin, 'end', end);
-    // Make rows
-    const tableBody = arr.map((elem, index) => {
-      // console.log('elem.year', elem.year)
-      if (elem.year >= begin && index <= end) {
+  makeYearsData = () => {
+    // Sort ascending
+    return returns.sort(function ascending(a, b) {
+      return a.year - b.year;
+    });
+  }
+  makeCumulative = (years, begin) => {
+    var total = 0;
+    // Add Cumulative Column
+    var newYears = years.map((elem, index) => {
+      if (elem.year >= begin) {
+        total += parseFloat(elem.totalReturn);
+        elem.cumulative = total.toFixed(2);
+        return elem;
+      }
+    });
+    // Sort Descending
+    return newYears.sort(function descending(a, b) {
+      return b.year - a.year;
+    });
+  };
+  makeTableBody = (begin, end) => {
+    const { yearsWithCumulative } = this.state;
+    const tableBody = yearsWithCumulative.map((elem, index) => {
+      if (elem.year >= begin && elem.year <= end) {
         return <Row elem={elem} key={index} />;
       }
     });
@@ -101,8 +97,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { yearsData, min, max, changeMin, changeMax, tableBody } = this.state;
-    // console.log('tableBody', tableBody)
+    const { yearsData, min, max, tableBody } = this.state;
+    // console.log("App.js, this.state", this.state);
     return (
       <>
         <div className="container">
@@ -116,8 +112,7 @@ class App extends React.Component {
               <SliderWrapper
                 min={min}
                 max={max}
-                changeMin={changeMin}
-                changeMax={changeMax}
+                changeHandles={this.changeHandles}
               ></SliderWrapper>
             ) : (
               <div />

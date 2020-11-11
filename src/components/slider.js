@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Slider, {Range} from "rc-slider";
+import React from "react";
+import Slider, { Range } from "rc-slider";
 import "../../node_modules/rc-slider/assets/index.css";
-import "./slider.css"
-// const { Handle, Range } = Slider;
+import "./slider.css";
 
 const wrapperStyle = { width: 500, margin: 50 };
 
@@ -16,79 +15,57 @@ class DynamicBounds extends React.Component {
     this.state = {
       min: 0,
       max: 3000,
+      handleMin: null,
+      handleMax: null,
     };
   }
   componentDidMount() {
-    const { min, max } = this.props.props;
-    let marks = this.calcMarks(min, max)
+    const { min, max } = this.props;
+    let marks = this.calcMarks(min, max);
     this.setState({
       min: min,
       max: max,
-      marks: marks
+      marks: marks,
     });
   }
   componentDidUpdate(prevProps) {
-    const { min, max } = this.props.props;
-    let marks = this.calcMarks(min, max)
+    const { min, max } = this.props;
+    let marks = this.calcMarks(min, max);
     if (prevProps !== this.props) {
       this.setState({
         min: min,
         max: max,
-        marks: marks
+        marks: marks,
       });
     }
   }
   calcMarks = (min, max) => {
-    let buildMarks = {}
-    // const { min, max, mark } = this.state;
-    for ( let i = min; i <= max; i++){
-      if ( i === min || i % 20 === 0 || i === max ){
+    let buildMarks = {};
+    for (let i = min; i <= max; i++) {
+      if (i === min || i % 20 === 0 || i === max) {
         buildMarks[i] = i;
       }
     }
     return buildMarks;
-  }
+  };
   onSliderChange = (value) => {
-    log(value);
+    this.props.changeHandles(value);
   };
 
-  // onMinChange = (e) => {
-  //   this.setState({
-  //     min: +e.target.value || this.state.min,
-  //   });
-  //   const { changeMin, changeMax } = this.props.props;
-  //   changeMin(e.target.value || this.state.min);
-  // };
-
-  // onMaxChange = (e) => {
-  //   this.setState({
-  //     max: +e.target.value || this.state.max,
-  //   });
-  //   const { changeMin, changeMax } = this.props.props;
-  //   changeMax(e.target.value || this.state.mac);
-  // };
-
-
   render() {
+    // console.log("DynamicBounds, this.props", this.props);
     const { min, max, marks } = this.state;
     const defaultVals = [min, max];
-    // const defaultVals = [max, min];
-    console.log('defaultVals', defaultVals);
-    console.log("DynamicBounds min", min);
-    console.log("DynamicBounds max", max);
-    console.log("DynamicBounds marks", marks);
     return (
       <div>
         <Range
           count={1}
           defaultValue={[min, max]}
           allowCross={false}
-          // step={10} dots
           min={min}
           max={max}
           marks={marks}
           onChange={this.onSliderChange}
-          // onLoad={log(`Range loaded, min: ${min} max, ${max}`)}
         />
       </div>
     );
@@ -96,27 +73,15 @@ class DynamicBounds extends React.Component {
 }
 
 export default (props) => {
-  const [min, setMin] = useState([]);
-  const [max, setMax] = useState([]);
-  console.log("wrapper props", props);
+  // console.log("wrapper props", props);
   return (
     <div>
+
       <div style={wrapperStyle}>
-        <p>Dynamic Range</p>
-        <DynamicBounds props={props} />
+        <p>Data Available (by year)</p>
+        <DynamicBounds {...props} />
       </div>
 
-      {/* <div style={wrapperStyle}>
-        <p>Basic Range，`allowCross=false`</p>
-        <Range
-          // props={props}
-          allowCross={false}
-          min={min}
-          max={max}
-          // marks={{ min: `${min}`, max: `${max}` }}
-          onChange={log}
-        />
-      </div> */}
     </div>
   );
 };
