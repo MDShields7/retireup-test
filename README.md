@@ -2,7 +2,7 @@
 
 ## Running the project
 1. `git clone https://github.com/MDShields7/retireup-test.git`
-2. `cd retureup-test`
+2. `cd retireup-test`
 3. `npm i`
 4. `npm run start`
 5. View site on http://localhost:3000/
